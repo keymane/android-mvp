@@ -26,11 +26,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.keyman.mvp.R;
-import com.example.keyman.mvp.model.impl.LoginModelImpl;
+import com.example.keyman.mvp.contract.LoginContract;
 import com.example.keyman.mvp.presenter.LoginPresenter;
-import com.example.keyman.mvp.presenter.impl.LoginPresenterImpl;
-import com.example.keyman.mvp.utils.StateMaintainer;
-import com.example.keyman.mvp.view.LoginView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +37,7 @@ import static android.Manifest.permission.READ_CONTACTS;
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity implements LoginView, LoaderCallbacks<Cursor>, TextView.OnEditorActionListener, View.OnClickListener {
+public class LoginActivity extends AppCompatActivity implements LoginContract.View, LoaderCallbacks<Cursor>, TextView.OnEditorActionListener, View.OnClickListener {
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -52,9 +49,6 @@ public class LoginActivity extends AppCompatActivity implements LoginView, Loade
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
-
-    private final StateMaintainer mStateMaintainer =
-            new StateMaintainer(getFragmentManager(), LoginActivity.class.getName());
 
     private LoginPresenter mLoginPresenter;
 
@@ -90,19 +84,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView, Loade
     }
 
     private void setupMVP() {
-        if (mStateMaintainer.firstTimeIn()) {
-            LoginPresenterImpl loginPresenter = new LoginPresenterImpl(this);
-            LoginModelImpl loginModel = new LoginModelImpl(loginPresenter);
-            loginPresenter.setLoginModel(loginModel);
-
-            mStateMaintainer.put(loginPresenter);
-            mStateMaintainer.put(loginModel);
-
-            mLoginPresenter = loginPresenter;
-        } else {
-            mLoginPresenter = mStateMaintainer.get(LoginPresenterImpl.class.getName());
-            mLoginPresenter.setView(this);
-        }
+        mLoginPresenter = new LoginPresenter(this);
     }
 
     @Override

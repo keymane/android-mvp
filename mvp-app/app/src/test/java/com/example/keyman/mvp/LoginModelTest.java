@@ -3,8 +3,7 @@ package com.example.keyman.mvp;
 import android.content.Context;
 
 import com.example.keyman.mvp.model.LoginModel;
-import com.example.keyman.mvp.model.impl.LoginModelImpl;
-import com.example.keyman.mvp.presenter.impl.LoginPresenterImpl;
+import com.example.keyman.mvp.presenter.LoginPresenter;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -29,8 +28,8 @@ public class LoginModelTest {
     public void setup() {
         Context context = RuntimeEnvironment.application;
 
-        LoginPresenterImpl mockPresenter = Mockito.mock(LoginPresenterImpl.class);
-        mLoginModel = new LoginModelImpl(mockPresenter);
+        LoginPresenter mockPresenter = Mockito.mock(LoginPresenter.class);
+        mLoginModel = new LoginModel(mockPresenter);
 
         reset(mockPresenter);
     }
