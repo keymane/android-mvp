@@ -1,8 +1,6 @@
 package com.example.keyman.mvp.contract;
 
 import android.content.Context;
-import android.widget.AutoCompleteTextView;
-import android.widget.EditText;
 
 /**
  * Created by keyman on 4/30/2018.
@@ -10,15 +8,18 @@ import android.widget.EditText;
 
 public interface LoginContract {
     interface Presenter {
-        void attemptLogin(AutoCompleteTextView mEmailView, EditText mPasswordView);
+        void attemptLogin(String email, String password);
     }
 
     interface View {
-        Context getActivityContext();
 
-        void setEmailError(String emailError);
+        void setEmailError(int resourceId);
 
-        void setPasswordError(String passwordError);
+        void resetEmailError();
+
+        void setPasswordError(int resourceId);
+
+        void resetPaswordError();
 
         void showProgress(final boolean show);
 

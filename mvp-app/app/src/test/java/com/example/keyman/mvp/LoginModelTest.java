@@ -1,7 +1,5 @@
 package com.example.keyman.mvp;
 
-import android.content.Context;
-
 import com.example.keyman.mvp.model.LoginModel;
 import com.example.keyman.mvp.presenter.LoginPresenter;
 
@@ -10,7 +8,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.robolectric.RobolectricGradleTestRunner;
-import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
 import static org.junit.Assert.assertFalse;
@@ -26,8 +23,6 @@ public class LoginModelTest {
 
     @Before
     public void setup() {
-        Context context = RuntimeEnvironment.application;
-
         LoginPresenter mockPresenter = Mockito.mock(LoginPresenter.class);
         mLoginModel = new LoginModel(mockPresenter);
 

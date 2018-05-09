@@ -1,8 +1,6 @@
 package com.example.keyman.mvp.presenter;
 
 import android.view.View;
-import android.widget.AutoCompleteTextView;
-import android.widget.EditText;
 
 import com.example.keyman.mvp.R;
 import com.example.keyman.mvp.contract.LoginContract;
@@ -51,41 +49,31 @@ public class LoginPresenter implements LoginContract.Presenter {
      * errors are presented and no actual login attempt is made.
      */
     @Override
-    public void attemptLogin(AutoCompleteTextView mEmailView, EditText mPasswordView) {
+    public void attemptLogin(String email, String password) {
         // Reset errors.
-        getLoginView().setEmailError(null);
-        getLoginView().setPasswordError(null);
+        getLoginView().resetEmailError();
+        getLoginView().resetPaswordError();
 
         // Store values at the time of the login attempt.
-        String email = mEmailView.getText().toString();
-        String password = mPasswordView.getText().toString();
-
         boolean cancel = false;
         View focusView = null;
 
         // Check for a valid password, if the user entered one.
         if (!mLoginModel.isPasswordValid(password)) {
-            mPasswordView.setError(getLoginView().getActivityContext().getString(R.string.error_invalid_password));
-            focusView = mPasswordView;
+            getLoginView().setPasswordError(R.string.error_invalid_password);
             cancel = true;
         }
 
         // Check for a valid email address.
         if (mLoginModel.isEmptyEmail(email)) {
-            mEmailView.setError(getLoginView().getActivityContext().getString(R.string.error_field_required));
-            focusView = mEmailView;
+            getLoginView().setEmailError(R.string.error_field_required);
             cancel = true;
         } else if (!mLoginModel.isEmailValid(email)) {
-            mEmailView.setError(getLoginView().getActivityContext().getString(R.string.error_invalid_email));
-            focusView = mEmailView;
+            getLoginView().setEmailError(R.string.error_invalid_email);
             cancel = true;
         }
 
-        if (cancel) {
-            // There was an error; don't attempt login and focus the first
-            // form field with an error.
-            focusView.requestFocus();
-        } else {
+        if (!cancel) {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             new LoginTask(getLoginView(), mLoginModel, email, password).execute((Void) null);

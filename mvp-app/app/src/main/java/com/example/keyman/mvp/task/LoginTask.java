@@ -53,7 +53,7 @@ public class LoginTask extends AsyncTask<Void, Void, Boolean> {
         if (success) {
             mLoginView.finish();
         } else {
-            mLoginView.setPasswordError(mLoginView.getActivityContext().getString(R.string.error_incorrect_password));
+            mLoginView.setPasswordError(R.string.error_incorrect_password);
 
         }
     }

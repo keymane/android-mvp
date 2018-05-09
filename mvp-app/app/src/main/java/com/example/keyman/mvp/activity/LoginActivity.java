@@ -90,7 +90,9 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     @Override
     public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
         if (id == R.id.login || id == EditorInfo.IME_NULL) {
-            mLoginPresenter.attemptLogin(mEmailView, mPasswordView);
+            String email = mEmailView.getText().toString();
+            String password = mPasswordView.getText().toString();
+            mLoginPresenter.attemptLogin(email, password);
             return true;
         }
         return false;
@@ -100,30 +102,33 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.email_sign_in_button: {
-                mLoginPresenter.attemptLogin(mEmailView, mPasswordView);
+                String email = mEmailView.getText().toString();
+                String password = mPasswordView.getText().toString();
+                mLoginPresenter.attemptLogin(email, password);
             }
         }
     }
 
     @Override
-    public void setEmailError(String emailError) {
-        mEmailView.setError(emailError);
-        if (emailError != null) {
-            mEmailView.requestFocus();
-        }
+    public void setEmailError(int resourceId) {
+        mEmailView.setError(getString(resourceId));
+        mEmailView.requestFocus();
     }
 
     @Override
-    public void setPasswordError(String passwordError) {
-        mPasswordView.setError(passwordError);
-        if (passwordError != null) {
-            mPasswordView.requestFocus();
-        }
+    public void resetEmailError() {
+        mEmailView.setError(null);
     }
 
     @Override
-    public Context getActivityContext() {
-        return this;
+    public void setPasswordError(int resourceId) {
+        mPasswordView.setError(getString(resourceId));
+        mPasswordView.requestFocus();
+    }
+
+    @Override
+    public void resetPaswordError() {
+        mPasswordView.setError(null);
     }
 
     private void populateAutoComplete() {
